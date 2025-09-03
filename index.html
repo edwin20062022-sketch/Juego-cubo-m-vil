@@ -5,10 +5,37 @@
 <title>Mini Juego JS</title>
 <style>
     canvas { background: black; display: block; margin: auto; }
+    #controles {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    button {
+        width: 60px;
+        height: 60px;
+        font-size: 20px;
+        border-radius: 10px;
+        border: none;
+        background: #333;
+        color: white;
+    }
 </style>
 </head>
 <body>
 <canvas id="juego" width="500" height="400"></canvas>
+
+<!-- Controles táctiles -->
+<div id="controles">
+    <button id="up">⬆️</button>
+    <div>
+        <button id="left">⬅️</button>
+        <button id="down">⬇️</button>
+        <button id="right">➡️</button>
+    </div>
+</div>
+
 <script>
 const canvas = document.getElementById('juego');
 const ctx = canvas.getContext('2d');
@@ -16,9 +43,27 @@ const ctx = canvas.getContext('2d');
 let jugador = { x: 200, y: 150, size: 50, speed: 5 };
 const keys = {};
 
+// Eventos de teclado
 document.addEventListener('keydown', e => keys[e.key] = true);
 document.addEventListener('keyup', e => keys[e.key] = false);
 
+// Eventos táctiles
+function activarBoton(direccion) { keys[direccion] = true; }
+function desactivarBoton(direccion) { keys[direccion] = false; }
+
+document.getElementById("up").addEventListener("touchstart", () => activarBoton("ArrowUp"));
+document.getElementById("up").addEventListener("touchend", () => desactivarBoton("ArrowUp"));
+
+document.getElementById("down").addEventListener("touchstart", () => activarBoton("ArrowDown"));
+document.getElementById("down").addEventListener("touchend", () => desactivarBoton("ArrowDown"));
+
+document.getElementById("left").addEventListener("touchstart", () => activarBoton("ArrowLeft"));
+document.getElementById("left").addEventListener("touchend", () => desactivarBoton("ArrowLeft"));
+
+document.getElementById("right").addEventListener("touchstart", () => activarBoton("ArrowRight"));
+document.getElementById("right").addEventListener("touchend", () => desactivarBoton("ArrowRight"));
+
+// Bucle principal
 function loop() {
     // Movimiento
     if(keys['ArrowLeft']) jugador.x -= jugador.speed;
