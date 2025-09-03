@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mini Juego JS</title>
+<style>
+    canvas { background: black; display: block; margin: auto; }
+</style>
+</head>
+<body>
+<canvas id="juego" width="500" height="400"></canvas>
+<script>
+const canvas = document.getElementById('juego');
+const ctx = canvas.getContext('2d');
+
+let jugador = { x: 200, y: 150, size: 50, speed: 5 };
+const keys = {};
+
+document.addEventListener('keydown', e => keys[e.key] = true);
+document.addEventListener('keyup', e => keys[e.key] = false);
+
+function loop() {
+    // Movimiento
+    if(keys['ArrowLeft']) jugador.x -= jugador.speed;
+    if(keys['ArrowRight']) jugador.x += jugador.speed;
+    if(keys['ArrowUp']) jugador.y -= jugador.speed;
+    if(keys['ArrowDown']) jugador.y += jugador.speed;
+
+    // Dibujar
+    ctx.fillStyle = 'black';
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+
+    ctx.fillStyle = 'red';
+    ctx.fillRect(jugador.x, jugador.y, jugador.size, jugador.size);
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+</script>
+</body>
+</html>
